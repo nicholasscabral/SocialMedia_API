@@ -6,12 +6,15 @@
   "author": "nicholasscabral <nicholasscabral@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node-dev src/server.ts"
+    "start": "ts-node-dev src/server.ts",
+    "typeorm": "ts-node-dev node_modules/typeorm/cli.js"
   },
   "dependencies": {
     "express": "^4.17.1",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.37"
+    "sqlite3": "^5.0.2",
+    "typeorm": "^0.2.37",
+    "uuidv4": "^6.2.12"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
