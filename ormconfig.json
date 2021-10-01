@@ -1,7 +1,10 @@
 {
-  "type": "sqlite",
+  "type": "postgres",
+  "port": 5432,
+  "username": "postgres",
+  "password": "root",
+  "database": "social_media_api",
   "logging": true,
-  "database": "./src/database/db.sqlite",
   "migrations": ["./src/migrations/**.ts"],
   "entities": ["./src/models/**.ts"],
   "cli": {
