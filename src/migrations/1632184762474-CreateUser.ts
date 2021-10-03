@@ -35,13 +35,11 @@ export class CreateUser1632184762474 implements MigrationInterface {
             name: "followers",
             type: "varchar",
             isArray: true,
-            //default: "[]",
           },
           {
             name: "following",
             type: "varchar",
             isArray: true,
-            //default: "[]",
           },
           {
             name: "created_at",
