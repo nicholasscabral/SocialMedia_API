@@ -23,6 +23,9 @@ class User {
   profilePicture: string;
 
   @Column("simple-array", { default: [] })
+  posts: string[];
+
+  @Column("simple-array", { default: [] })
   followers: string[];
 
   @Column("simple-array", { default: [] })
