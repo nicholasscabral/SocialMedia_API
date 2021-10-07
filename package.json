@@ -5,7 +5,7 @@
    "author": "nicholasscabral <nicholasscabral@gmail.com>",
    "license": "MIT",
    "scripts": {
-      "start": "ts-node-dev src/index.ts",
+      "start": "ts-node-dev src/server.ts",
       "typeorm": "ts-node-dev node_modules/typeorm/cli.js"
    },
    "dependencies": {
