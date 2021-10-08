@@ -34,6 +34,24 @@ export class CreateUser1633540421317 implements MigrationInterface {
               isNullable: true,
             },
             {
+              name: "posts",
+              type: "varchar",
+              isArray: true,
+              default: "array[]::varchar[]",
+            },
+            {
+              name: "followers",
+              type: "varchar",
+              isArray: true,
+              default: "array[]::varchar[]",
+            },
+            {
+              name: "following",
+              type: "varchar",
+              isArray: true,
+              default: "array[]::varchar[]",
+            },
+            {
               name: "created_at",
               type: "timestamp",
               default: "now()",

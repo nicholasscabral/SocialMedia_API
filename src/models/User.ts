@@ -7,8 +7,8 @@ import {
 
 @Entity("users")
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column({ unique: true })
   username: string;
@@ -21,6 +21,15 @@ export class User {
 
   @Column({ nullable: true })
   profilePicture: string;
+
+  @Column("simple-array", { default: [] })
+  posts: string[];
+
+  @Column("simple-array", { default: [] })
+  followers: string[];
+
+  @Column("simple-array", { default: [] })
+  following: string[];
 
   @CreateDateColumn({ default: new Date() })
   created_at: Date;
