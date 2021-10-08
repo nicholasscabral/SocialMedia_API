@@ -1,5 +1,5 @@
-import { getRepository } from "typeorm";
-import { User } from "../models/User";
+import { getCustomRepository, getRepository } from "typeorm";
+import { UserRepository } from "../repositories/UserRepository";
 
 interface IUser {
   username: string;
@@ -9,24 +9,22 @@ interface IUser {
 }
 
 export class UserService {
-  // private userRepository: Repository<User>;
+  private userRepository: UserRepository;
 
-  // constructor() {
-  //   this.userRepository = getRepository(User);
-  // }
+  constructor() {
+    this.userRepository = getCustomRepository(UserRepository);
+  }
 
   async create({ username, email, password, profilePicture }: IUser) {
     try {
-      const userRepository = getRepository(User);
-
-      const user = userRepository.create({
+      const user = this.userRepository.create({
         username,
         email,
         password,
         profilePicture,
       });
 
-      await userRepository.save(user);
+      await this.userRepository.save(user);
 
       return user;
     } catch (err) {

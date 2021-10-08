@@ -21,7 +21,6 @@ export class UserController {
         profilePicture,
       });
 
-      console.log("user created: ", user);
       return res.json(user);
     } catch (err) {
       console.log("UserController.create =>> ", err.message);
