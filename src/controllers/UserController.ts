@@ -2,13 +2,7 @@ import { Request, Response } from "express";
 import { UserService } from "../services/UserService";
 
 export class UserController {
-  // private userService: UserService;
-
-  // constructor() {
-  //   this.userService = new UserService();
-  // }
-
-  async create(req: Request, res: Response) {
+  async register(req: Request, res: Response) {
     try {
       const { username, email, password, profilePicture } = req.body;
 
@@ -23,7 +17,7 @@ export class UserController {
 
       return res.json(user);
     } catch (err) {
-      console.log("UserController.create =>> ", err.message);
+      console.log("UserController.register =>> ", err.message);
     }
   }
 }

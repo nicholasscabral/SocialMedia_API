@@ -1,4 +1,5 @@
-import { getCustomRepository, getRepository } from "typeorm";
+import { getCustomRepository } from "typeorm";
+import { User } from "../models/User";
 import { UserRepository } from "../repositories/UserRepository";
 
 interface IUser {
@@ -17,12 +18,14 @@ export class UserService {
 
   async create({ username, email, password, profilePicture }: IUser) {
     try {
-      const user = this.userRepository.create({
-        username,
-        email,
-        password,
-        profilePicture,
-      });
+      const user = new User();
+      user.username = username;
+      user.email = email;
+      user.password = password;
+      user.profilePicture = profilePicture;
+      user.posts = [];
+      user.followers = [];
+      user.following = [];
 
       await this.userRepository.save(user);
 
