@@ -22,15 +22,15 @@ export class User {
   @Column({ nullable: true })
   profilePicture: string;
 
-  @Column("simple-array", { default: [] })
+  @Column("simple-array")
   posts: string[];
 
-  @Column("simple-array", { default: [] })
+  @Column("simple-array")
   followers: string[];
 
-  @Column("simple-array", { default: [] })
+  @Column("simple-array")
   following: string[];
 
-  @CreateDateColumn({ default: new Date() })
+  @CreateDateColumn({ default: () => "now()" })
   created_at: Date;
 }
