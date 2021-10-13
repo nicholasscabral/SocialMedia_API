@@ -5,6 +5,7 @@ const routes = Router();
 
 const userController = new UserController();
 
-routes.post("/", userController.create);
+routes.post("/", userController.register);
+routes.put("/follow/:id", userController.follow);
 
 export { routes };

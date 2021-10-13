@@ -20,4 +20,22 @@ export class UserController {
       console.log("UserController.register =>> ", err.message);
     }
   }
+
+  async follow(req: Request, res: Response) {
+    try {
+      const currentUserId = req.body.id;
+      const userId = req.params.id;
+
+      if (currentUserId == userId)
+        return res.status(403).json({ message: "you cant follow yourself" });
+
+      const userService = new UserService();
+
+      const response = await userService.follow(currentUserId, userId);
+
+      return res.json(response);
+    } catch (err) {
+      console.log("UserController.follow =>> ", err.message);
+    }
+  }
 }

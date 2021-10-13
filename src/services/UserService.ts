@@ -34,4 +34,24 @@ export class UserService {
       console.log("UserService.create =>> ", err.message);
     }
   }
+
+  async follow(currentUserId: string, userId: string) {
+    try {
+      let currentUser = await this.userRepository.findById(currentUserId);
+      let user = await this.userRepository.findById(userId);
+
+      if (currentUser.following.includes(userId))
+        return { message: "you already follow this user" };
+
+      currentUser.following.push(userId);
+      user.followers.push(currentUserId);
+
+      currentUser = await this.userRepository.save(currentUser);
+      user = await this.userRepository.save(user);
+
+      return { following: currentUser, beingFollowed: user };
+    } catch (err) {
+      console.log("UserService.follow =>> ", err.message);
+    }
+  }
 }
