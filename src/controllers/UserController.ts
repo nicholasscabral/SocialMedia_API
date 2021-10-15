@@ -52,4 +52,19 @@ export class UserController {
 
     return res.json(response);
   }
+
+  async followers(req: Request, res: Response) {
+    try {
+      const userId = req.params.id;
+
+      const userService = new UserService();
+
+      const response = await userService.listFollowers(userId);
+
+      return res.json(response);
+    } catch (err) {
+      console.log("UserController.followers", err.message);
+      return res.status(500).json({ message: "internal error" });
+    }
+  }
 }

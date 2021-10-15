@@ -6,6 +6,10 @@ const routes = Router();
 const userController = new UserController();
 
 routes.post("/", userController.register);
+
 routes.put("/follow/:id", userController.follow);
+routes.put("/unfollow/:id", userController.unfollow);
+
+routes.get("/followers/:id", userController.followers);
 
 export { routes };

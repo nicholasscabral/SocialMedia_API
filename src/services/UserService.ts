@@ -77,4 +77,8 @@ export class UserService {
       console.log("UserService.unfollow", err.message);
     }
   }
+
+  async listFollowers(userId: string): Promise<any[]> {
+    return await this.userRepository.listfollowers(userId);
+  }
 }
