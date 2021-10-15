@@ -54,4 +54,27 @@ export class UserService {
       console.log("UserService.follow =>> ", err.message);
     }
   }
+
+  async unfollow(currentUserId: string, userId: string) {
+    try {
+      const currentUser = await this.userRepository.findById(currentUserId);
+      const user = await this.userRepository.findById(userId);
+
+      if (!currentUser.following.includes(userId))
+        return { message: "you do not follow this user" };
+
+      const i = currentUser.following.indexOf(userId);
+      const j = user.followers.indexOf(currentUserId);
+
+      const unfollowed = currentUser.following.splice(i, 1);
+      user.followers.splice(j, 1);
+
+      await this.userRepository.save(currentUser);
+      await this.userRepository.save(user);
+
+      return { unfollowed: unfollowed, followings: currentUser.following };
+    } catch (err) {
+      console.log("UserService.unfollow", err.message);
+    }
+  }
 }

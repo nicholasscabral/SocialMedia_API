@@ -38,4 +38,18 @@ export class UserController {
       console.log("UserController.follow =>> ", err.message);
     }
   }
+
+  async unfollow(req: Request, res: Response) {
+    const currentUserId = req.body.id;
+    const userId = req.params.id;
+
+    if (currentUserId == userId)
+      return res.status(403).json({ message: "you cant unfollow yourself" });
+
+    const userService = new UserService();
+
+    const response = await userService.unfollow(currentUserId, userId);
+
+    return res.json(response);
+  }
 }
