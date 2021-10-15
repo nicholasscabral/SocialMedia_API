@@ -24,6 +24,23 @@ export class UserRepository extends Repository<User> {
     return formatedArray;
   }
 
+  async listFollowings(id: string): Promise<any[]> {
+    const user = await this.findOne(id);
+
+    let formatedArray = [];
+
+    for (var i = 0; i < user.following.length; i++) {
+      const follow = await this.findById(user.following[i]);
+
+      formatedArray.push({
+        id: follow.id,
+        username: follow.username,
+      });
+    }
+
+    return formatedArray;
+  }
+
   async findInArray(id: string, array: string[]): Promise<number> {
     for (var i = 0; i < array.length; i++) {
       if (id == array[i]) return i;

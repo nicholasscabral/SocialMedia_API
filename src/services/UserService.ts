@@ -81,4 +81,8 @@ export class UserService {
   async listFollowers(userId: string): Promise<any[]> {
     return await this.userRepository.listfollowers(userId);
   }
+
+  async listFollowings(userId: string): Promise<any[]> {
+    return await this.userRepository.listFollowings(userId);
+  }
 }

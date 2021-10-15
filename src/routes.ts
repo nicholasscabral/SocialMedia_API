@@ -11,5 +11,6 @@ routes.put("/follow/:id", userController.follow);
 routes.put("/unfollow/:id", userController.unfollow);
 
 routes.get("/followers/:id", userController.followers);
+routes.get("/followings/:id", userController.followings);
 
 export { routes };

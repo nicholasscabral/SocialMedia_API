@@ -67,4 +67,18 @@ export class UserController {
       return res.status(500).json({ message: "internal error" });
     }
   }
+
+  async followings(req: Request, res: Response) {
+    try {
+      const userId = req.params.id;
+
+      const userService = new UserService();
+
+      const response = await userService.listFollowings(userId);
+
+      return res.json(response);
+    } catch (err) {
+      console.log("UserController.followings", err.message);
+    }
+  }
 }
