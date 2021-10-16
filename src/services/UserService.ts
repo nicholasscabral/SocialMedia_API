@@ -1,6 +1,7 @@
 import { getCustomRepository } from "typeorm";
 import { User } from "../models/User";
 import { UserRepository } from "../repositories/UserRepository";
+import * as bcrypt from "bcrypt";
 
 interface IUser {
   username: string;
@@ -47,10 +48,12 @@ export class UserService {
 
   async create({ username, email, password, profilePicture }: IUser) {
     try {
+      const hashedPassword = await bcrypt.hash(password, 8);
+
       const user = new User();
       user.username = username;
       user.email = email;
-      user.password = password;
+      user.password = hashedPassword;
       user.profilePicture = profilePicture;
       user.posts = [];
       user.followers = [];
@@ -58,9 +61,10 @@ export class UserService {
 
       await this.userRepository.save(user);
 
-      return user;
+      return { created: true, user: user };
     } catch (err) {
       console.log("UserService.create =>> ", err.message);
+      return { created: false, message: "email or username already in use" };
     }
   }
 

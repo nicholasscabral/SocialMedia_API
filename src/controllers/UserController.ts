@@ -2,25 +2,6 @@ import { Request, Response } from "express";
 import { UserService } from "../services/UserService";
 
 export class UserController {
-  async register(req: Request, res: Response) {
-    try {
-      const { username, email, password, profilePicture } = req.body;
-
-      const userService = new UserService();
-
-      const user = await userService.create({
-        username,
-        email,
-        password,
-        profilePicture,
-      });
-
-      return res.status(201).json(user);
-    } catch (err) {
-      console.log("UserController.register =>> ", err.message);
-    }
-  }
-
   async get(req: Request, res: Response) {
     try {
       const userId = req.params.id;
@@ -47,6 +28,28 @@ export class UserController {
       return res.status(200).json(users);
     } catch (err) {
       console.log("UserController.getAll", err.message);
+    }
+  }
+
+  async register(req: Request, res: Response) {
+    try {
+      const { username, email, password, profilePicture } = req.body;
+
+      const userService = new UserService();
+
+      const response = await userService.create({
+        username,
+        email,
+        password,
+        profilePicture,
+      });
+
+      if (!response.created)
+        return res.status(403).json({ message: response.message });
+
+      return res.status(201).json(response.user);
+    } catch (err) {
+      console.log("UserController.register =>> ", err.message);
     }
   }
 
