@@ -16,6 +16,31 @@ export class UserService {
     this.userRepository = getCustomRepository(UserRepository);
   }
 
+  async exists(id: string): Promise<boolean> {
+    return await this.userRepository.exists(id);
+  }
+
+  async get(id: string) {
+    try {
+      const user = await this.userRepository.findById(id);
+
+      const formatedUser = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        profilePicture: user.profilePicture,
+        posts: user.posts,
+        followers: user.followers,
+        following: user.following,
+      };
+
+      return { found: true, user: formatedUser };
+    } catch (err) {
+      console.log("UserService.get", err.message);
+      return { found: false };
+    }
+  }
+
   async create({ username, email, password, profilePicture }: IUser) {
     try {
       const user = new User();
