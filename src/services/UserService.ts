@@ -70,30 +70,34 @@ export class UserService {
   }
 
   async login(username: string, password: string) {
-    const userExists = await this.userRepository.findByUsername(username);
+    try {
+      const userExists = await this.userRepository.findByUsername(username);
 
-    if (!userExists)
-      return {
-        authenticated: false,
-        message: "username or password is incorrect",
-      };
+      if (!userExists)
+        return {
+          authenticated: false,
+          message: "username or password is incorrect",
+        };
 
-    const response = await this.userRepository.findPassword(username);
-    const { id, hashedPassword } = response;
+      const response = await this.userRepository.findPassword(username);
+      const { id, hashedPassword } = response;
 
-    const passwordsMatch = await bcrypt.compare(password, hashedPassword);
+      const passwordsMatch = await bcrypt.compare(password, hashedPassword);
 
-    if (!passwordsMatch)
-      return {
-        authenticated: false,
-        message: "username or password is incorrect",
-      };
+      if (!passwordsMatch)
+        return {
+          authenticated: false,
+          message: "username or password is incorrect",
+        };
 
-    const token = jwt.sign({ id: id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
+      const token = jwt.sign({ id: id }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      });
 
-    return { authenticated: true, token: token };
+      return { authenticated: true, token: token };
+    } catch (err) {
+      console.log("UserService.login", err.message);
+    }
   }
 
   async follow(currentUserId: string, userId: string) {
