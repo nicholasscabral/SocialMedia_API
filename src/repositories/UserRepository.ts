@@ -3,6 +3,10 @@ import { User } from "../models/User";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
+  async exists(id: string): Promise<boolean> {
+    return (await this.findById(id)) != undefined ? true : false;
+  }
+
   async findById(id: string): Promise<User> {
     return this.findOne(id);
   }
@@ -39,13 +43,5 @@ export class UserRepository extends Repository<User> {
     }
 
     return formatedArray;
-  }
-
-  async findInArray(id: string, array: string[]): Promise<number> {
-    for (var i = 0; i < array.length; i++) {
-      if (id == array[i]) return i;
-    }
-
-    return -1;
   }
 }

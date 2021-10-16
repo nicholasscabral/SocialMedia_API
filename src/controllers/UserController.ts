@@ -15,7 +15,7 @@ export class UserController {
         profilePicture,
       });
 
-      return res.json(user);
+      return res.status(201).json(user);
     } catch (err) {
       console.log("UserController.register =>> ", err.message);
     }
@@ -69,17 +69,21 @@ export class UserController {
   }
 
   async unfollow(req: Request, res: Response) {
-    const currentUserId = req.body.id;
-    const userId = req.params.id;
+    try {
+      const currentUserId = req.body.id;
+      const userId = req.params.id;
 
-    if (currentUserId == userId)
-      return res.status(403).json({ message: "you cant unfollow yourself" });
+      if (currentUserId == userId)
+        return res.status(403).json({ message: "you cant unfollow yourself" });
 
-    const userService = new UserService();
+      const userService = new UserService();
 
-    const response = await userService.unfollow(currentUserId, userId);
+      const response = await userService.unfollow(currentUserId, userId);
 
-    return res.json(response);
+      return res.json(response);
+    } catch (err) {
+      console.log("UserController.unfollow", err.message);
+    }
   }
 
   async followers(req: Request, res: Response) {
