@@ -15,6 +15,10 @@ export class UserRepository extends Repository<User> {
     return await this.findOne({ username: username });
   }
 
+  async findByEmail(email: string): Promise<User> {
+    return await this.findOne({ email: email });
+  }
+
   async findPassword(username: string) {
     const response = await this.createQueryBuilder("user")
       .select("id, password")

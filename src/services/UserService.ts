@@ -3,6 +3,7 @@ import { User } from "../models/User";
 import { UserRepository } from "../repositories/UserRepository";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
+import * as crypto from "crypto";
 
 interface IUser {
   username: string;
@@ -41,6 +42,24 @@ export class UserService {
       console.log("UserService.get", err.message);
       return { found: false };
     }
+  }
+
+  async generatePasswordToken(user: User) {
+    const token = crypto.randomBytes(20).toString("hex");
+
+    const now = new Date();
+    now.setHours(now.getHours() + 1);
+
+    user.passwordResetToken = token;
+    user.passwordResetExpires = now;
+
+    await this.userRepository.save(user);
+
+    console.log(token, now);
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    return await this.userRepository.findByEmail(email);
   }
 
   async getAll(): Promise<User[]> {

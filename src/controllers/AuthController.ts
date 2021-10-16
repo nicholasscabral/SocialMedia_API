@@ -43,4 +43,23 @@ export class AuthController {
       console.log("UserController.login", err.message);
     }
   }
+
+  async forgot_password(req: Request, res: Response) {
+    const email = req.body.email;
+
+    try {
+      const userService = new UserService();
+
+      const user = await userService.findByEmail(email);
+
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      const response = await userService.generatePasswordToken(user);
+    } catch (err) {
+      console.log("AuthController.forgot_password", err.message);
+      return res
+        .status(400)
+        .json({ err: "error on forgot psasword, try again" });
+    }
+  }
 }
