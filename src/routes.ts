@@ -6,6 +6,7 @@ const routes = Router();
 const userController = new UserController();
 
 routes.post("/", userController.register);
+routes.post("/login", userController.login);
 
 routes.put("/follow/:id", userController.follow);
 routes.put("/unfollow/:id", userController.unfollow);

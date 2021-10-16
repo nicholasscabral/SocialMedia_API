@@ -11,6 +11,19 @@ export class UserRepository extends Repository<User> {
     return this.findOne(id);
   }
 
+  async findByUsername(username: string): Promise<User> {
+    return await this.findOne({ username: username });
+  }
+
+  async findPassword(username: string) {
+    const response = await this.createQueryBuilder("user")
+      .select("id, password")
+      .where({ username: username })
+      .getRawOne();
+
+    return { id: response.id, hashedPassword: response.password };
+  }
+
   async listfollowers(id: string): Promise<any[]> {
     const user = await this.findOne(id);
 

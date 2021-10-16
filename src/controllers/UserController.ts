@@ -53,13 +53,29 @@ export class UserController {
     }
   }
 
+  async login(req: Request, res: Response) {
+    const { username, password } = req.body;
+
+    if (!username || !password)
+      return res.status(400).json({ message: "missing credentials" });
+
+    const userService = new UserService();
+
+    const response = await userService.login(username, password);
+
+    if (!response.authenticated)
+      return res.status(403).json({ message: response.message });
+
+    return res.status(200).json(response.token);
+  }
+
   async follow(req: Request, res: Response) {
     try {
       const currentUserId = req.body.id;
       const userId = req.params.id;
 
       if (currentUserId == userId)
-        return res.status(403).json({ message: "you cant follow yourself" });
+        return res.status(400).json({ message: "you cant follow yourself" });
 
       const userService = new UserService();
 
@@ -77,7 +93,7 @@ export class UserController {
       const userId = req.params.id;
 
       if (currentUserId == userId)
-        return res.status(403).json({ message: "you cant unfollow yourself" });
+        return res.status(400).json({ message: "you cant unfollow yourself" });
 
       const userService = new UserService();
 

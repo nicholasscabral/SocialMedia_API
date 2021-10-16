@@ -2,6 +2,7 @@ import { getCustomRepository } from "typeorm";
 import { User } from "../models/User";
 import { UserRepository } from "../repositories/UserRepository";
 import * as bcrypt from "bcrypt";
+import * as jwt from "jsonwebtoken";
 
 interface IUser {
   username: string;
@@ -66,6 +67,33 @@ export class UserService {
       console.log("UserService.create =>> ", err.message);
       return { created: false, message: "email or username already in use" };
     }
+  }
+
+  async login(username: string, password: string) {
+    const userExists = await this.userRepository.findByUsername(username);
+
+    if (!userExists)
+      return {
+        authenticated: false,
+        message: "username or password is incorrect",
+      };
+
+    const response = await this.userRepository.findPassword(username);
+    const { id, hashedPassword } = response;
+
+    const passwordsMatch = await bcrypt.compare(password, hashedPassword);
+
+    if (!passwordsMatch)
+      return {
+        authenticated: false,
+        message: "username or password is incorrect",
+      };
+
+    const token = jwt.sign({ id: id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    });
+
+    return { authenticated: true, token: token };
   }
 
   async follow(currentUserId: string, userId: string) {
