@@ -1,12 +1,14 @@
 import { Router } from "express";
 import { UserController } from "./controllers/UserController";
+import { AuthController } from "./controllers/AuthController";
 
 const routes = Router();
 
 const userController = new UserController();
+const authController = new AuthController();
 
-routes.post("/", userController.register);
-routes.post("/login", userController.login);
+routes.post("/", authController.register);
+routes.post("/login", authController.login);
 
 routes.put("/follow/:id", userController.follow);
 routes.put("/unfollow/:id", userController.unfollow);
