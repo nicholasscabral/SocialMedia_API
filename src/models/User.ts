@@ -16,7 +16,7 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column()
+  @Column({ select: false })
   password: string;
 
   @Column({ nullable: true })
@@ -31,6 +31,6 @@ export class User {
   @Column("simple-array")
   following: string[];
 
-  @CreateDateColumn({ default: () => "now()" })
+  @CreateDateColumn({ default: () => "now()", select: false })
   created_at: Date;
 }

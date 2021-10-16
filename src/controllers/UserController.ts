@@ -32,9 +32,21 @@ export class UserController {
       if (!user.found)
         return res.status(404).json({ message: "User not found" });
 
-      return res.status(200).json(user);
+      return res.status(200).json(user.user);
     } catch (err) {
       console.log("UserController.get", err.message);
+    }
+  }
+
+  async getAll(req: Request, res: Response) {
+    try {
+      const userService = new UserService();
+
+      const users = await userService.getAll();
+
+      return res.status(200).json(users);
+    } catch (err) {
+      console.log("UserController.getAll", err.message);
     }
   }
 
