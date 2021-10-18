@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UserService } from "../services/UserService";
+import { mailer } from "../modules/mailer";
 
 export class AuthController {
   async register(req: Request, res: Response) {
@@ -54,12 +55,51 @@ export class AuthController {
 
       if (!user) return res.status(404).json({ message: "User not found" });
 
-      const response = await userService.generatePasswordToken(user);
+      const token = await userService.generatePasswordToken(user);
+
+      mailer
+        .sendMail({
+          to: email,
+          from: "nicholas@teste.com",
+          subject: "password reset",
+          template: "forgot_password",
+          context: { token },
+        })
+        .then(() => {
+          console.log("email sent successfully");
+          return res
+            .status(200)
+            .json({ message: "email sent, check your email box" });
+        });
     } catch (err) {
       console.log("AuthController.forgot_password", err.message);
       return res
         .status(400)
-        .json({ err: "error on forgot psasword, try again" });
+        .json({ err: "error on forgot password, try again" });
+    }
+  }
+
+  async reset_password(req: Request, res: Response) {
+    const { email, token, password } = req.body;
+
+    try {
+      const userService = new UserService();
+
+      const user = await userService.findByEmail(email);
+
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      const response = await userService.checkToken(user, token, password);
+
+      if (!response.passwordReseted)
+        return res.status(400).json({ message: response.message });
+
+      return res.status(200).json({ message: response.message });
+    } catch (err) {
+      console.log("AuthController.reset_password", err.message);
+      return res
+        .status(400)
+        .json({ message: "cannot reset password, try again" });
     }
   }
 }

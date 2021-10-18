@@ -28,6 +28,20 @@ export class UserRepository extends Repository<User> {
     return { id: response.id, hashedPassword: response.password };
   }
 
+  async findToken(email: string) {
+    const response = await this.createQueryBuilder("user")
+      .select("passwordresettoken, passwordtokenexpires")
+      .where({ email: email })
+      .getRawOne();
+
+    console.log(response);
+
+    return {
+      passwordresettoken: response.passwordresettoken,
+      passwordtokenexpires: response.passwordtokenexpires,
+    };
+  }
+
   async listfollowers(id: string): Promise<any[]> {
     const user = await this.findOne(id);
 

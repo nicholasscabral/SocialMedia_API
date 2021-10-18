@@ -45,17 +45,53 @@ export class UserService {
   }
 
   async generatePasswordToken(user: User) {
-    const token = crypto.randomBytes(20).toString("hex");
+    try {
+      const token = crypto.randomBytes(20).toString("hex");
 
-    const now = new Date();
-    now.setHours(now.getHours() + 1);
+      const now = new Date();
+      now.setHours(now.getHours() + 1);
 
-    user.passwordResetToken = token;
-    user.passwordResetExpires = now;
+      user.passwordresettoken = token;
+      user.passwordtokenexpires = now;
 
-    await this.userRepository.save(user);
+      await this.userRepository.save(user);
 
-    console.log(token, now);
+      console.log({ token, now });
+
+      return token;
+    } catch (err) {
+      console.log("UserService.generatePasswordToken", err.message);
+    }
+  }
+
+  async checkToken(user: User, token: string, newPassword: string) {
+    try {
+      const { passwordresettoken, passwordtokenexpires } =
+        await this.userRepository.findToken(user.email);
+
+      if (passwordresettoken !== token)
+        return { passwordReseted: false, message: "Invalid token" };
+
+      const now = new Date();
+
+      if (now > passwordtokenexpires)
+        return { passwordReseted: false, message: "expired token" };
+
+      const hashedPassword = await bcrypt.hash(newPassword, 8);
+
+      user.password = hashedPassword;
+      user.passwordresettoken = null;
+      user.passwordtokenexpires = null;
+
+      await this.userRepository.save(user);
+
+      return {
+        passwordReseted: true,
+        message: `password changed: ${hashedPassword}`,
+      };
+    } catch (err) {
+      console.log("UserService.checkToken", err.message);
+    }
   }
 
   async findByEmail(email: string): Promise<User> {

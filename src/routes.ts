@@ -10,6 +10,7 @@ const authController = new AuthController();
 routes.post("/", authController.register);
 routes.post("/login", authController.login);
 routes.post("/forgot_password", authController.forgot_password);
+routes.post("/password/reset", authController.reset_password);
 
 routes.put("/follow/:id", userController.follow);
 routes.put("/unfollow/:id", userController.unfollow);
