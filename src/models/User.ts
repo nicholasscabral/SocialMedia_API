@@ -35,8 +35,8 @@ export class User {
   created_at: Date;
 
   @Column({ select: false, nullable: true })
-  passwordResetToken: string;
+  passwordresettoken: string;
 
   @Column({ select: false, nullable: true })
-  passwordResetExpires: Date;
+  passwordtokenexpires: Date;
 }
