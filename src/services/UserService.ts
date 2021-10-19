@@ -39,7 +39,7 @@ export class UserService {
 
       return { found: true, user: formatedUser };
     } catch (err) {
-      console.log("UserService.get", err.message);
+      console.log("UserService.get =>> ", err.message);
       return { found: false };
     }
   }
@@ -60,7 +60,7 @@ export class UserService {
 
       return token;
     } catch (err) {
-      console.log("UserService.generatePasswordToken", err.message);
+      console.log("UserService.generatePasswordToken =>> ", err.message);
     }
   }
 
@@ -90,7 +90,7 @@ export class UserService {
         message: `password changed: ${hashedPassword}`,
       };
     } catch (err) {
-      console.log("UserService.checkToken", err.message);
+      console.log("UserService.checkToken =>> ", err.message);
     }
   }
 
@@ -151,7 +151,7 @@ export class UserService {
 
       return { authenticated: true, token: token };
     } catch (err) {
-      console.log("UserService.login", err.message);
+      console.log("UserService.login =>> ", err.message);
     }
   }
 
@@ -194,7 +194,7 @@ export class UserService {
 
       return { unfollowed: unfollowed, followings: currentUser.following };
     } catch (err) {
-      console.log("UserService.unfollow", err.message);
+      console.log("UserService.unfollow =>> ", err.message);
     }
   }
 

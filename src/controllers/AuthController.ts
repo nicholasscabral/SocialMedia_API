@@ -41,7 +41,7 @@ export class AuthController {
 
       return res.status(200).json(response.token);
     } catch (err) {
-      console.log("UserController.login", err.message);
+      console.log("UserController.login =>> ", err.message);
     }
   }
 
@@ -72,7 +72,7 @@ export class AuthController {
             .json({ message: "email sent, check your email box" });
         });
     } catch (err) {
-      console.log("AuthController.forgot_password", err.message);
+      console.log("AuthController.forgot_password =>> ", err.message);
       return res
         .status(400)
         .json({ err: "error on forgot password, try again" });
@@ -96,7 +96,7 @@ export class AuthController {
 
       return res.status(200).json({ message: response.message });
     } catch (err) {
-      console.log("AuthController.reset_password", err.message);
+      console.log("AuthController.reset_password =>> ", err.message);
       return res
         .status(400)
         .json({ message: "cannot reset password, try again" });

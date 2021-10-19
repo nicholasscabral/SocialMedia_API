@@ -15,7 +15,7 @@ export class UserController {
 
       return res.status(200).json(user.user);
     } catch (err) {
-      console.log("UserController.get", err.message);
+      console.log("UserController.get =>> ", err.message);
     }
   }
 
@@ -27,7 +27,7 @@ export class UserController {
 
       return res.status(200).json(users);
     } catch (err) {
-      console.log("UserController.getAll", err.message);
+      console.log("UserController.getAll =>> ", err.message);
     }
   }
 
@@ -63,7 +63,7 @@ export class UserController {
 
       return res.json(response);
     } catch (err) {
-      console.log("UserController.unfollow", err.message);
+      console.log("UserController.unfollow =>> ", err.message);
     }
   }
 
@@ -77,7 +77,7 @@ export class UserController {
 
       return res.json(response);
     } catch (err) {
-      console.log("UserController.followers", err.message);
+      console.log("UserController.followers =>> ", err.message);
       return res.status(500).json({ message: "internal error" });
     }
   }
@@ -92,7 +92,7 @@ export class UserController {
 
       return res.json(response);
     } catch (err) {
-      console.log("UserController.followings", err.message);
+      console.log("UserController.followings =>> ", err.message);
     }
   }
 }
