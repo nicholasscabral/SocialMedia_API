@@ -1,16 +1,31 @@
-import { Connection, createConnection } from "typeorm";
+import { Connection, createConnection, getConnection } from "typeorm";
 
-let connection: Connection;
+let connection: any;
 
 if (process.env.NODE_ENV === "test") {
-  createConnection("test").then((connect) => {
-    connection = connect;
-    console.log("TEST Database Connection established...");
-  });
+  connection = {
+    async create() {
+      await createConnection();
+    },
+
+    async close() {
+      await getConnection().close();
+    },
+
+    async clear() {
+      const connection = getConnection();
+      const entities = connection.entityMetadatas;
+
+      entities.forEach(async (entity) => {
+        const repository = connection.getRepository(entity.name);
+        await repository.query(`DELETE FROM ${entity.tableName}`);
+      });
+    },
+  };
 } else {
   createConnection().then((connect) => {
     connection = connect;
-    console.log("Database Connection established...");
+    console.log("Database connection established");
   });
 }
 

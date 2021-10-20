@@ -1,6 +1,5 @@
 [
    {
-      "name": "default",
       "type": "postgres",
       "host": "localhost",
       "username": "postgres",
