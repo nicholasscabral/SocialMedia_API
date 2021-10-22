@@ -6,7 +6,6 @@ import createConnection from "../database";
 describe("User", () => {
   beforeAll(async () => {
     const connection = await createConnection();
-    console.log(connection.name, connection.options);
     await connection.runMigrations();
   });
 
