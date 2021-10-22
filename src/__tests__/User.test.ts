@@ -26,4 +26,14 @@ describe("User", () => {
     expect(res.status).toBe(201);
     expect(res.body).toHaveProperty("id");
   });
+
+  it("Should be able to login a user", async () => {
+    const res = await request(app).post("/login").send({
+      username: "test user",
+      password: "testpassword",
+    });
+
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty("token");
+  });
 });

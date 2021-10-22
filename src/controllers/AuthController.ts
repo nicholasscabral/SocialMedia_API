@@ -21,7 +21,7 @@ export class AuthController {
 
       return res.status(201).json(response.user);
     } catch (err) {
-      console.log("UserController.register =>> ", err.message);
+      console.log("AuthController.register =>> ", err.message);
     }
   }
 
@@ -39,9 +39,9 @@ export class AuthController {
       if (!response.authenticated)
         return res.status(403).json({ message: response.message });
 
-      return res.status(200).json(response.token);
+      return res.status(200).json({ token: response.token });
     } catch (err) {
-      console.log("UserController.login =>> ", err.message);
+      console.log("AuthController.login =>> ", err.message);
     }
   }
 
