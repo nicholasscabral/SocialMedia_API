@@ -29,7 +29,7 @@
       "username": "postgres",
       "password": "root",
       "database": "social_media_api_test",
-      "synchronize": true,
+      "synchronize": false,
       "logging": false,
       "entities": [
          "src/models/**/*.ts"
