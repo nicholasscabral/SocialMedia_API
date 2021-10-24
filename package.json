@@ -7,7 +7,9 @@
    "scripts": {
       "start": "ts-node-dev src/server.ts",
       "typeorm": "ts-node-dev node_modules/typeorm/cli.js",
-      "test": "cross-env NODE_ENV=test jest -i"
+      "migration:down": "ts-node-dev node_modules/typeorm/cli.js migration:revert",
+      "migration:up": "ts-node-dev node_modules/typeorm/cli.js migration:run",
+      "test": "cross-env NODE_ENV=test jest -i --env=jsdom "
    },
    "dependencies": {
       "express": "^4.17.1",
