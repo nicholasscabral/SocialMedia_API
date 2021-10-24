@@ -34,6 +34,9 @@ export class User {
   @CreateDateColumn({ default: () => "now()", select: false })
   created_at: Date;
 
+  @CreateDateColumn({ default: () => "now()", select: false })
+  updated_at: Date;
+
   @Column({ select: false, nullable: true })
   passwordresettoken: string;
 
