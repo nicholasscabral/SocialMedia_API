@@ -23,9 +23,6 @@ export class User {
   profilePicture: string;
 
   @Column("simple-array")
-  posts: string[];
-
-  @Column("simple-array")
   followers: string[];
 
   @Column("simple-array")

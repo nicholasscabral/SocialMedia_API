@@ -10,7 +10,6 @@ export class CreateUser1634406252903 implements MigrationInterface {
              "email" character varying NOT NULL,
              "password" character varying NOT NULL,
              "profilePicture" character varying,
-             "posts" text NOT NULL,
              "followers" text NOT NULL,
              "following" text NOT NULL,
              "created_at" TIMESTAMP NOT NULL DEFAULT now(),
