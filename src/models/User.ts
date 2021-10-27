@@ -3,7 +3,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   Column,
+  OneToMany,
 } from "typeorm";
+
+import { Post } from "./Post";
 
 @Entity("users")
 export class User {
@@ -21,6 +24,9 @@ export class User {
 
   @Column({ nullable: true })
   profilePicture: string;
+
+  @OneToMany(() => Post, (post) => post.user_id)
+  posts: Post[];
 
   @Column("simple-array")
   followers: string[];

@@ -3,12 +3,23 @@ import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
 } from "typeorm";
+
+import { User } from "./User";
 
 @Entity("posts")
 export class Post {
   @PrimaryGeneratedColumn("uuid")
   id: string;
+
+  @ManyToOne(() => User, (user) => user.posts, {
+    onDelete: "SET NULL",
+    onUpdate: "SET NULL",
+  })
+  @JoinColumn([{ name: "user_id", referencedColumnName: "id" }])
+  user_id: User;
 
   @Column()
   desc: string;
