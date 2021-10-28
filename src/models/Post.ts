@@ -19,7 +19,7 @@ export class Post {
     onUpdate: "SET NULL",
   })
   @JoinColumn([{ name: "user_id", referencedColumnName: "id" }])
-  user_id: User;
+  user: User;
 
   @Column()
   desc: string;

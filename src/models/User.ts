@@ -25,7 +25,7 @@ export class User {
   @Column({ nullable: true })
   profilePicture: string;
 
-  @OneToMany(() => Post, (post) => post.user_id)
+  @OneToMany(() => Post, (post) => post.user)
   posts: Post[];
 
   @Column("simple-array")
