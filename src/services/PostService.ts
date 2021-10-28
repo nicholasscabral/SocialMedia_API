@@ -14,29 +14,39 @@ export class PostService {
     try {
       const userRepository = getCustomRepository(UserRepository);
 
+      const userExists = await userRepository.exists(user_id);
+
+      if (!userExists) {
+        return { error: true, message: "User not found." };
+      }
+
       const user = await userRepository.findWithUnselected(user_id);
 
       const post = new Post();
-      post.user = user.id;
+      post.user = user;
       post.desc = desc;
       post.img = img;
       post.likes = [];
 
       const savedPost = await this.postRepository.save(post);
 
-      console.log(savedPost.user.id);
-
-      const users = await userRepository.find({
-        relations: ["posts"],
-      });
-      users[0].posts.forEach((post: Post) => {
-        console.log(post);
-      });
-
       return { error: false, post: savedPost };
     } catch (err) {
       console.log("PostService.create =>> ", err.message);
       return { error: true };
+    }
+  }
+
+  async findOne(id: string): Promise<Post | any> {
+    try {
+      const allPosts = await this.postRepository.find({ relations: ["user"] });
+
+      const post = allPosts.find((post) => post.id === id);
+
+      return post ? { ok: true, post } : { ok: false };
+    } catch (err) {
+      console.log("PostService.findOne =>> ", err.message);
+      return { ok: false };
     }
   }
 }

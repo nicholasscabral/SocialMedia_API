@@ -18,6 +18,24 @@ export class PostController {
       return res.status(201).json(response.post);
     } catch (err) {
       console.log("PostController.create =>> ", err.message);
+      return res.status(500).json({ message: "could not create post" });
+    }
+  }
+
+  async search(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+      const postService = new PostService();
+
+      const response = await postService.findOne(id);
+
+      if (!response.ok)
+        return res.status(404).json({ message: "Post not found" });
+
+      return res.status(200).json(response.post);
+    } catch (err) {
+      console.log("PostController.search =>> ", err.message);
+      return res.status(500).json({ message: "internal server error" });
     }
   }
 }

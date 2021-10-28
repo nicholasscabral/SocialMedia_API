@@ -27,5 +27,6 @@ routes.get("/users", userController.getAll);
 
 // posts routes
 routes.post("/post", postController.create);
+routes.get("/post/:id", postController.search);
 
 export { routes };
