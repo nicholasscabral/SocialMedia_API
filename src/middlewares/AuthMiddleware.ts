@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { UserService } from "../services/UserService";
 import { mailer } from "../modules/mailer";
 
-export class AuthController {
+export class AuthMiddleware {
   async register(req: Request, res: Response) {
     try {
       const { username, email, password, profilePicture } = req.body;
@@ -21,7 +21,7 @@ export class AuthController {
 
       return res.status(201).json(response.user);
     } catch (err) {
-      console.log("AuthController.register =>> ", err.message);
+      console.log("AuthMiddleware.register =>> ", err.message);
     }
   }
 
@@ -41,7 +41,7 @@ export class AuthController {
 
       return res.status(200).json({ token: response.token });
     } catch (err) {
-      console.log("AuthController.login =>> ", err.message);
+      console.log("AuthMiddleware.login =>> ", err.message);
     }
   }
 
@@ -72,7 +72,7 @@ export class AuthController {
             .json({ message: "email sent, check your email box" });
         });
     } catch (err) {
-      console.log("AuthController.forgot_password =>> ", err.message);
+      console.log("AuthMiddleware.forgot_password =>> ", err.message);
       return res
         .status(400)
         .json({ err: "error on forgot password, try again" });
@@ -96,7 +96,7 @@ export class AuthController {
 
       return res.status(200).json({ message: response.message });
     } catch (err) {
-      console.log("AuthController.reset_password =>> ", err.message);
+      console.log("AuthMiddleware.reset_password =>> ", err.message);
       return res
         .status(400)
         .json({ message: "cannot reset password, try again" });
