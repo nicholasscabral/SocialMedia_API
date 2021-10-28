@@ -102,4 +102,27 @@ export class AuthMiddleware {
         .json({ message: "cannot reset password, try again" });
     }
   }
+
+  async delete(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+
+      const userService = new UserService();
+
+      const userExists = await userService.exists(id);
+
+      if (!userExists)
+        return res.status(404).json({ message: "User not found" });
+
+      const response = await userService.delete(id);
+
+      if (!response.ok)
+        return res.status(500).json({ message: "could not delete user" });
+
+      return res.status(200).json({ message: "User deleted" });
+    } catch (err) {
+      console.log("AuthMiddleware.delete =>> ", err.message);
+      return res.status(500).json({ message: "could not delete user" });
+    }
+  }
 }

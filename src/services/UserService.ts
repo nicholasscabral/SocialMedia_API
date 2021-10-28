@@ -4,6 +4,7 @@ import { UserRepository } from "../repositories/UserRepository";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import * as crypto from "crypto";
+import { PostService } from "./PostService";
 
 interface IUser {
   username: string;
@@ -121,6 +122,19 @@ export class UserService {
     } catch (err) {
       console.log("UserService.create =>> ", err.message);
       return { created: false, message: "email or username already in use" };
+    }
+  }
+
+  async delete(id: string) {
+    try {
+      const deleteResult = await this.userRepository.delete(id);
+
+      if (deleteResult.affected !== 1) return { ok: false };
+
+      return { ok: true, deleteResult };
+    } catch (err) {
+      console.log("UserService.delete =>> ", err.message);
+      return { ok: false };
     }
   }
 

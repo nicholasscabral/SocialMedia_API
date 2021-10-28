@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { UserController } from "./controllers/UserController";
-import {} from "./middlewares/AuthMiddleware";
+import { AuthMiddleware } from "./middlewares/AuthMiddleware";
 import { PostController } from "./controllers/PostController";
 
 const routes = Router();
@@ -14,6 +14,7 @@ routes.post("/auth/signup", authMiddleware.register);
 routes.post("/auth/login", authMiddleware.login);
 routes.post("/auth/forgot_password", authMiddleware.forgot_password);
 routes.post("/auth/password/reset", authMiddleware.reset_password);
+routes.delete("/auth/:id", authMiddleware.delete);
 
 // user routes
 routes.put("/follow/:id", userController.follow);
