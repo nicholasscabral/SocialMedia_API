@@ -75,4 +75,13 @@ export class UserRepository extends Repository<User> {
 
     return formatedArray;
   }
+
+  async findWithUnselected(id: string) {
+    const user = await this.createQueryBuilder()
+      .select("*")
+      .where({ id })
+      .getRawOne();
+
+    return user;
+  }
 }
