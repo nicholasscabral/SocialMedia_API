@@ -14,10 +14,7 @@ export class Post {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @ManyToOne(() => User, (user) => user.posts, {
-    onDelete: "SET NULL",
-    onUpdate: "SET NULL",
-  })
+  @ManyToOne(() => User, (user) => user.posts, { onDelete: "CASCADE" })
   @JoinColumn([{ name: "user_id", referencedColumnName: "id" }])
   user: User;
 
