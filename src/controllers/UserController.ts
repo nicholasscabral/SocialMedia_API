@@ -8,7 +8,7 @@ export class UserController {
 
       const userService = new UserService();
 
-      const user = await userService.get(userId);
+      const user = await userService.findById(userId);
 
       if (!user.found)
         return res.status(404).json({ message: "User not found" });
@@ -23,7 +23,7 @@ export class UserController {
     try {
       const userService = new UserService();
 
-      const users = await userService.getAll();
+      const users = await userService.findAll();
 
       return res.status(200).json(users);
     } catch (err) {
@@ -82,7 +82,7 @@ export class UserController {
     }
   }
 
-  async followings(req: Request, res: Response) {
+  async following(req: Request, res: Response) {
     try {
       const userId = req.params.id;
 

@@ -23,7 +23,7 @@ export class UserService {
     return await this.userRepository.exists(id);
   }
 
-  async get(id: string) {
+  async findById(id: string) {
     try {
       const user = await this.userRepository.findById(id);
 
@@ -39,7 +39,7 @@ export class UserService {
 
       return { found: true, user: formatedUser };
     } catch (err) {
-      console.log("UserService.get =>> ", err.message);
+      console.log("UserService.findById =>> ", err.message);
       return { found: false };
     }
   }
@@ -98,7 +98,7 @@ export class UserService {
     return await this.userRepository.findByEmail(email);
   }
 
-  async getAll(): Promise<User[]> {
+  async findAll(): Promise<User[]> {
     return await this.userRepository.find();
   }
 
