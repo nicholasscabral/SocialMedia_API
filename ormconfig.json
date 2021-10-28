@@ -5,7 +5,7 @@
       "username": "postgres",
       "password": "root",
       "database": "social_media_api",
-      "synchronize": true,
+      "synchronize": false,
       "logging": false,
       "entities": [
          "src/models/**/*.ts"
