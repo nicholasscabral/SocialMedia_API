@@ -5,7 +5,16 @@ import { mailer } from "../modules/mailer";
 export class AuthMiddleware {
   async register(req: Request, res: Response) {
     try {
-      const { username, email, password, profilePicture } = req.body;
+      const { username, email, password, passwordConfirm, profilePicture } =
+        req.body;
+
+      if (!username || !email || !password || !passwordConfirm)
+        return res
+          .status(400)
+          .json({ message: "Required fields not provided" });
+
+      if (password !== passwordConfirm)
+        return res.status(400).json({ message: "Passwords does not match" });
 
       const userService = new UserService();
 
