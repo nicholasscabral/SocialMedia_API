@@ -46,12 +46,13 @@ export class AuthMiddleware {
 
       const response = await userService.login(username, password);
 
-      if (!response.authenticated)
+      if (response.error)
         return res.status(403).json({ message: response.message });
 
       return res.status(200).json({ token: response.token });
     } catch (err) {
       console.log("AuthMiddleware.login =>> ", err.message);
+      return res.status(500).json("Internal server error");
     }
   }
 

@@ -149,8 +149,8 @@ export class UserService {
 
       if (!userExists)
         return {
-          authenticated: false,
-          message: "username or password is incorrect",
+          error: true,
+          message: "incorrect username or password",
         };
 
       const response = await this.userRepository.findPassword(username);
@@ -160,15 +160,15 @@ export class UserService {
 
       if (!passwordsMatch)
         return {
-          authenticated: false,
-          message: "username or password is incorrect",
+          error: true,
+          message: "incorrect username or password",
         };
 
       const token = jwt.sign({ id: id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN,
       });
 
-      return { authenticated: true, token: token };
+      return { error: false, token: token };
     } catch (err) {
       console.log("UserService.login =>> ", err.message);
     }
