@@ -16,12 +16,13 @@ export class AuthMiddleware {
         profilePicture,
       });
 
-      if (!response.created)
+      if (response.error)
         return res.status(403).json({ message: response.message });
 
       return res.status(201).json(response.user);
     } catch (err) {
       console.log("AuthMiddleware.register =>> ", err.message);
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 

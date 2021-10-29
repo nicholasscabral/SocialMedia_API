@@ -16,7 +16,7 @@ describe("User", () => {
   });
 
   it("Should be able to create a user", async () => {
-    const res = await request(app).post("/").send({
+    const res = await request(app).post("/auth/signup").send({
       username: "test user",
       email: "testuser@example.com",
       password: "testpassword",
@@ -28,7 +28,7 @@ describe("User", () => {
   });
 
   it("Should be able to login a user", async () => {
-    const res = await request(app).post("/login").send({
+    const res = await request(app).post("/auth/login").send({
       username: "test user",
       password: "testpassword",
     });

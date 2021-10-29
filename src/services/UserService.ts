@@ -4,7 +4,6 @@ import { UserRepository } from "../repositories/UserRepository";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import * as crypto from "crypto";
-import { PostService } from "./PostService";
 
 interface IUser {
   username: string;
@@ -105,6 +104,12 @@ export class UserService {
 
   async create({ username, email, password, profilePicture }: IUser) {
     try {
+      const verification = await this.userRepository.verify(username, email);
+
+      if (verification.error) {
+        return { error: true, message: verification.message };
+      }
+
       const hashedPassword = await bcrypt.hash(password, 8);
 
       const user = new User();
@@ -118,10 +123,10 @@ export class UserService {
 
       await this.userRepository.save(user);
 
-      return { created: true, user: user };
+      return { error: false, user };
     } catch (err) {
       console.log("UserService.create =>> ", err.message);
-      return { created: false, message: "email or username already in use" };
+      return { error: true, message: "Internal server error" };
     }
   }
 

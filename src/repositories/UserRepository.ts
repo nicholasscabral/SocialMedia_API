@@ -3,6 +3,19 @@ import { User } from "../models/User";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
+  async verify(username: string, email: string) {
+    const usernameInUse = await this.findOne({ username });
+
+    if (usernameInUse)
+      return { error: true, message: "username already in use" };
+
+    const emailInUse = await this.findOne({ email });
+
+    if (emailInUse) return { error: true, message: "email already in use" };
+
+    return { error: false };
+  }
+
   async exists(id: string): Promise<boolean> {
     return (await this.findById(id)) != undefined ? true : false;
   }

@@ -19,7 +19,6 @@ routes.delete("/auth/:id", authMiddleware.delete);
 // user routes
 routes.put("/follow/:id", userController.follow);
 routes.put("/unfollow/:id", userController.unfollow);
-
 routes.get("/:username/followers", userController.followers);
 routes.get("/:username/following", userController.following);
 routes.get("/user/:username", userController.get);
