@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { PostService } from "../services/PostService";
+import { UserService } from "../services/UserService";
 
 export class PostController {
   async create(req: Request, res: Response) {
@@ -42,6 +43,13 @@ export class PostController {
   async postsByUser(req: Request, res: Response) {
     try {
       const userId = req.params.userId;
+
+      const userService = new UserService();
+
+      const userExists = await userService.exists(userId);
+
+      if (!userExists)
+        return res.status(404).json({ message: "User not found" });
 
       const postService = new PostService();
 
