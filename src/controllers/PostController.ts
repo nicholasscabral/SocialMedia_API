@@ -64,4 +64,28 @@ export class PostController {
       return res.status(500).json({ message: "could not list user posts" });
     }
   }
+
+  async postByUser(req: Request, res: Response) {
+    try {
+      const { userId, postId } = req.params;
+
+      const userService = new UserService();
+
+      const userExists = await userService.exists(userId);
+
+      if (!userExists)
+        return res.status(404).json({ message: "User not found" });
+
+      const postService = new PostService();
+
+      const response = await postService.findOneByUser(userId, postId);
+
+      if (!response.ok) return res.status(404).json(response.message);
+
+      return res.status(200).json(response.post);
+    } catch (err) {
+      console.log("PostController.postByUser =>> ", err.message);
+      return res.status(500).json({ message: "could not find post" });
+    }
+  }
 }

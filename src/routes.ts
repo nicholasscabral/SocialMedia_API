@@ -29,5 +29,6 @@ routes.get("/users", userController.getAll);
 routes.post("/post", postController.create);
 routes.get("/post/:id", postController.search);
 routes.get("/posts/:userId", postController.postsByUser);
+routes.get("/post/:userId/:postId", postController.postByUser);
 
 export { routes };

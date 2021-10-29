@@ -1,3 +1,4 @@
+import { post } from "superagent";
 import { getCustomRepository } from "typeorm";
 import { Post } from "../models/Post";
 import { PostRepository } from "../repositories/PostRepository";
@@ -64,6 +65,27 @@ export class PostService {
     } catch (err) {
       console.log("PostService.findByUser =>> ", err.message);
       return { ok: false };
+    }
+  }
+
+  async findOneByUser(userId: string, postId: string) {
+    try {
+      const allPosts = await this.postRepository.find({ relations: ["user"] });
+
+      const post = allPosts.filter(
+        (post) => post.user.id === userId && post.id === postId
+      );
+
+      console.log(post);
+
+      if (post.length < 1) {
+        return { ok: false, message: "Post not found" };
+      }
+
+      return { ok: true, post: post[0] };
+    } catch (err) {
+      console.log("PostService.findOneByUser =>> ", err.message);
+      return { ok: false, message: "Post not found" };
     }
   }
 }
