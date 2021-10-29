@@ -38,4 +38,22 @@ export class PostController {
       return res.status(500).json({ message: "internal server error" });
     }
   }
+
+  async postsByUser(req: Request, res: Response) {
+    try {
+      const userId = req.params.userId;
+
+      const postService = new PostService();
+
+      const response = await postService.findByUser(userId);
+
+      if (!response.ok)
+        return res.status(500).json({ message: "could not list user posts" });
+
+      return res.status(200).json(response.userPosts);
+    } catch (err) {
+      console.log("PostController.postsByUser =>> ", err.message);
+      return res.status(500).json({ message: "could not list user posts" });
+    }
+  }
 }

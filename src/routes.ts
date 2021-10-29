@@ -5,8 +5,8 @@ import { PostController } from "./controllers/PostController";
 
 const routes = Router();
 
-const userController = new UserController();
 const authMiddleware = new AuthMiddleware();
+const userController = new UserController();
 const postController = new PostController();
 
 // auth routes
@@ -28,5 +28,6 @@ routes.get("/users", userController.getAll);
 // posts routes
 routes.post("/post", postController.create);
 routes.get("/post/:id", postController.search);
+routes.get("/posts/:userId", postController.postsByUser);
 
 export { routes };

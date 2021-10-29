@@ -49,4 +49,21 @@ export class PostService {
       return { ok: false };
     }
   }
+
+  async findByUser(userId: string) {
+    try {
+      const allPosts = await this.postRepository.find({
+        relations: ["user"],
+      });
+
+      const userPosts = allPosts.filter((post) => post.user.id === userId);
+
+      userPosts.forEach((post) => delete post.user);
+
+      return { ok: true, userPosts };
+    } catch (err) {
+      console.log("PostService.findByUser =>> ", err.message);
+      return { ok: false };
+    }
+  }
 }
