@@ -1,4 +1,3 @@
-import { post } from "superagent";
 import { getCustomRepository } from "typeorm";
 import { Post } from "../models/Post";
 import { PostRepository } from "../repositories/PostRepository";
@@ -72,17 +71,17 @@ export class PostService {
     try {
       const allPosts = await this.postRepository.find({ relations: ["user"] });
 
-      const post = allPosts.filter(
+      const post = allPosts.find(
         (post) => post.user.id === userId && post.id === postId
       );
 
       console.log(post);
 
-      if (post.length < 1) {
+      if (!post) {
         return { ok: false, message: "Post not found" };
       }
 
-      return { ok: true, post: post[0] };
+      return { ok: true, post };
     } catch (err) {
       console.log("PostService.findOneByUser =>> ", err.message);
       return { ok: false, message: "Post not found" };
