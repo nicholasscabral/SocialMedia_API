@@ -2,13 +2,15 @@
    "compilerOptions": {
       "lib": [
          "es5",
-         "es6"
+         "es6",
+         "esnext.asynciterable"
       ],
       "target": "es5",
       "module": "commonjs",
       "moduleResolution": "node",
       "strict": false,
-      "outDir": "./build",
+      "outDir": "./dist",
+      "rootDir": "./src",
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
       "sourceMap": true,

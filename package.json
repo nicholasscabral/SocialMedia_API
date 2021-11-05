@@ -5,11 +5,13 @@
    "author": "nicholasscabral <nicholasscabral@gmail.com>",
    "license": "MIT",
    "scripts": {
-      "start": "ts-node-dev src/server.ts",
+      "build": "tsc",
+      "dev": "ts-node-dev src/server.ts",
+      "start": "cross-env NODE_ENV=prod node dist/server.js",
       "typeorm": "ts-node-dev node_modules/typeorm/cli.js",
+      "test": "cross-env NODE_ENV=test jest -i --env=jsdom ",
       "migration:down": "ts-node-dev node_modules/typeorm/cli.js migration:revert",
-      "migration:up": "ts-node-dev node_modules/typeorm/cli.js migration:run",
-      "test": "cross-env NODE_ENV=test jest -i --env=jsdom "
+      "migration:up": "ts-node-dev node_modules/typeorm/cli.js migration:run"
    },
    "dependencies": {
       "express": "^4.17.1",

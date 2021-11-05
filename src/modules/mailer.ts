@@ -1,8 +1,8 @@
-import * as nodemailer from "nodemailer";
-import * as hbs from "nodemailer-express-handlebars";
-import path from "path";
+const nodemailer = require("nodemailer");
+const hbs = require("nodemailer-express-handlebars");
+const path = require("path");
 
-var transport = nodemailer.createTransport({
+var mailer = nodemailer.createTransport({
   host: process.env.MAIL_HOST,
   port: process.env.MAIL_PORT,
   auth: {
@@ -11,7 +11,7 @@ var transport = nodemailer.createTransport({
   },
 });
 
-transport.use(
+mailer.use(
   "compile",
   hbs({
     viewEngine: "handlebars",
@@ -20,4 +20,4 @@ transport.use(
   })
 );
 
-export { transport };
+export { mailer };
