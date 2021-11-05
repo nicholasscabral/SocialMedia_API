@@ -11,11 +11,11 @@ export default async (): Promise<Connection> => {
           : defaultOptions.database,
       entities:
         process.env.NODE_ENV === "prod"
-          ? "dist/models/**/*.ts"
+          ? ["dist/models/**/*.ts"]
           : defaultOptions.entities,
       migrations:
         process.env.NODE_ENV === "prod"
-          ? "dist/database/migrations/**/*.ts"
+          ? ["dist/database/migrations/**/*.ts"]
           : defaultOptions.migrations,
     })
   );
