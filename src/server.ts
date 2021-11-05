@@ -5,6 +5,8 @@ import createConnection from "./database";
 
 dotenv.config({ path: "./.env" });
 
-createConnection().then(() => console.log("Database connection established"));
+createConnection().then((connection) => {
+  console.log("Database connection established:", connection.isConnected);
+});
 
 app.listen(5000, () => console.log("Server running..."));
